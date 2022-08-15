@@ -1,2 +1,2 @@
 # tic-tac-toe
-A cool tic-tac-toe game
+This is a tic-tac-toe game created to help me with c# OOP and minimax
