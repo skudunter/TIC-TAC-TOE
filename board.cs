@@ -4,7 +4,7 @@
     public static char computerValue;
     public static char playerValue;
     public bool gameOver = false; //initialize the gameOver variable
-    public void showBoard()
+    public void showBoard()   
     { //print the board to the console
         for (int i = 0; i < 9; i++)
         {

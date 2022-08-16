@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Daniel\\Code\\C#\\tic-tac-toe\\tic-tac-toe.csproj": {}
+    "C:\\Users\\Daniel\\Code\\C#\\TIC-TAC-TOE-1\\tic-tac-toe.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Daniel\\Code\\C#\\tic-tac-toe\\tic-tac-toe.csproj": {
+    "C:\\Users\\Daniel\\Code\\C#\\TIC-TAC-TOE-1\\tic-tac-toe.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Daniel\\Code\\C#\\tic-tac-toe\\tic-tac-toe.csproj",
+        "projectUniqueName": "C:\\Users\\Daniel\\Code\\C#\\TIC-TAC-TOE-1\\tic-tac-toe.csproj",
         "projectName": "tic-tac-toe",
-        "projectPath": "C:\\Users\\Daniel\\Code\\C#\\tic-tac-toe\\tic-tac-toe.csproj",
+        "projectPath": "C:\\Users\\Daniel\\Code\\C#\\TIC-TAC-TOE-1\\tic-tac-toe.csproj",
         "packagesPath": "C:\\Users\\Daniel\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Daniel\\Code\\C#\\tic-tac-toe\\obj\\",
+        "outputPath": "C:\\Users\\Daniel\\Code\\C#\\TIC-TAC-TOE-1\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Daniel\\AppData\\Roaming\\NuGet\\NuGet.Config"
