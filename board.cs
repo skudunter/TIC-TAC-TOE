@@ -1,10 +1,11 @@
 ﻿class board
 { //the class for displaying the game board
     public char[] boardState = new char[9] { '#', '#', '#', '#', '#', '#', '#', '#', '#' }; //initialize the board state
+    public static int[] validMoves = new int[9] { 0, 1, 2, 3, 4, 5, 6, 7, 8 }; //initialize the valid moves array
     public static char computerValue;
     public static char playerValue;
     public bool gameOver = false; //initialize the gameOver variable
-    public void showBoard()   
+    public void showBoard()
     { //print the board to the console
         for (int i = 0; i < 9; i++)
         {
@@ -39,10 +40,19 @@
                 else
                 { //if the input is valid
                     boardState[move - 1] = playerValue; //set the board state to playervalue
+                    for (int i = 0; i < 9; i++)
+                    {
+                        if (move - 1 == i)
+                        {
+                            //splice validMoves index i out of the array
+                            validMoves[i] = validMoves[validMoves.Length - 1];
+                            Array.Resize(ref validMoves, validMoves.Length - 1);
+                        }
+                    }
                     validMove = true; //set the validMove variable to true
                 }
             }
-            computerMove();
+        computerMove();
         }
         else if (checkForWin() == playerValue)
         {
@@ -55,7 +65,7 @@
         else
         {
             Console.WriteLine("It's a tie!");
-        }   
+        }
         {
             Console.WriteLine("You lose!");
         }
