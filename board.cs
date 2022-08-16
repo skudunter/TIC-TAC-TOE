@@ -1,11 +1,30 @@
 ﻿class board
 { //the class for displaying the game board
-    public char[] boardState = new char[9] { '#', '#', '#', '#', '#', '#', '#', '#', '#' }; //initialize the board state
+    public static char[] boardState = new char[9] { '#', '#', '#', '#', '#', '#', '#', '#', '#' }; //initialize the board state
     public static int[] validMoves = new int[9] { 0, 1, 2, 3, 4, 5, 6, 7, 8 }; //initialize the valid moves array
     public static char computerValue;
     public static char playerValue;
-    public bool gameOver = false; //initialize the gameOver variable
-    public void showBoard()
+    public static bool gameOver = false; //initialize the gameOver variable
+    public static void makeMove(int move, char value)
+    { //make a move on the board
+        boardState[move] = value;
+        for (int i = 0; i < 9; i++)
+        {
+            if (move - 1 == i)
+            {
+                //splice validMoves index i out of the array
+                validMoves[i] = validMoves[validMoves.Length - 1];
+                Array.Resize(ref validMoves, validMoves.Length - 1);
+            }
+        }
+    }
+    public static void undoMove(int move)
+    { //undo a move on the board
+        boardState[move] = '#';
+        Array.Resize(ref validMoves, validMoves.Length + 1);
+        validMoves[validMoves.Length - 1] = move;
+    }
+    public static void showBoard()
     { //print the board to the console
         for (int i = 0; i < 9; i++)
         {
@@ -16,7 +35,7 @@
             System.Console.Write(boardState[i] + " ");
         }
     }
-    public void playerMove()
+    public static void playerMove()
     {
         if (checkForWin() == 'n')
         {
@@ -39,20 +58,11 @@
                 }
                 else
                 { //if the input is valid
-                    boardState[move - 1] = playerValue; //set the board state to playervalue
-                    for (int i = 0; i < 9; i++)
-                    {
-                        if (move - 1 == i)
-                        {
-                            //splice validMoves index i out of the array
-                            validMoves[i] = validMoves[validMoves.Length - 1];
-                            Array.Resize(ref validMoves, validMoves.Length - 1);
-                        }
-                    }
+                    makeMove(move - 1, playerValue); //set the board state to playervalue
                     validMove = true; //set the validMove variable to true
                 }
             }
-        computerMove();
+            computerMove();
         }
         else if (checkForWin() == playerValue)
         {
@@ -70,22 +80,33 @@
             Console.WriteLine("You lose!");
         }
     }
-    public void computerMove()
+    public static void computerMove()
     {
         if (checkForWin() == 'n')
         {
-            bool validMove = false; //initialize the validMove variable
-            while (!validMove)
-            { //loop until a valid move is made
-                Random rnd = new Random(); //initialize the random number generator
-                int move = rnd.Next(1, 10); //get a random number between 1 and 9
-                if (boardState[move - 1] == '#') //if the random number is not already occupied
-                {
-                    boardState[move - 1] = computerValue; //set the board state to X
-                    validMove = true; //set the validMove variable to true
-                }
+            // bool validMove = false; //initialize the validMove variable
+            // while (!validMove)
+            // { //loop until a valid move is made
+            //     Random rnd = new Random(); //initialize the random number generator
+            //     int move = rnd.Next(1, 10); //get a random number between 1 and 9
+            //     if (boardState[move - 1] == '#') //if the random number is not already occupied
+            //     {
+            //         boardState[move - 1] = computerValue; //set the board state to X
+            //         validMove = true; //set the validMove variable to true
+            //     }
 
+            // }
+            int move;
+            if (computerValue == 'O')
+            {
+                move = minimax.compute(boardState, true);
             }
+            else
+            {
+                move = minimax.compute(boardState, false);
+            }
+            makeMove(move - 1, computerValue);
+
             playerMove();
         }
         else if (checkForWin() == playerValue)
@@ -97,7 +118,7 @@
             Console.WriteLine("You lose!");
         }
     }
-    public char checkForWin()
+    public static char checkForWin()
     {
         if (boardState[0] == boardState[1] && boardState[1] == boardState[2] && boardState[0] != '#')
         {
