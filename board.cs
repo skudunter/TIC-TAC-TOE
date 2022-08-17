@@ -5,9 +5,9 @@
     public static char computerValue;
     public static char playerValue;
     public static bool gameOver = false; //initialize the gameOver variable
-    public static void makeMove(int move, char value)
+    public static char[] makeMove(char[] bs, int move, char value)
     { //make a move on the board
-        boardState[move] = value;
+        bs[move] = value;
         for (int i = 0; i < 9; i++)
         {
             if (move - 1 == i)
@@ -17,12 +17,14 @@
                 Array.Resize(ref validMoves, validMoves.Length - 1);
             }
         }
+        return bs;
     }
-    public static void undoMove(int move)
+    public static char[] undoMove(char[] bs, int move)
     { //undo a move on the board
-        boardState[move] = '#';
+        bs[move] = '#';
         Array.Resize(ref validMoves, validMoves.Length + 1);
         validMoves[validMoves.Length - 1] = move;
+        return bs;
     }
     public static void showBoard()
     { //print the board to the console
@@ -37,7 +39,7 @@
     }
     public static void playerMove()
     {
-        if (checkForWin() == 'n')
+        if (checkForWin(boardState) == 'n')
         {
             bool validMove = false; //initialize the validMove variable
             while (!validMove)
@@ -58,17 +60,17 @@
                 }
                 else
                 { //if the input is valid
-                    makeMove(move - 1, playerValue); //set the board state to playervalue
+                    makeMove(boardState, move - 1, playerValue); //set the board state to playervalue
                     validMove = true; //set the validMove variable to true
                 }
             }
             computerMove();
         }
-        else if (checkForWin() == playerValue)
+        else if (checkForWin(boardState) == playerValue)
         {
             Console.WriteLine("You win!");
         }
-        else if (checkForWin() == computerValue)
+        else if (checkForWin(boardState) == computerValue)
         {
             Console.WriteLine("You lose!");
         }
@@ -82,7 +84,7 @@
     }
     public static void computerMove()
     {
-        if (checkForWin() == 'n')
+        if (checkForWin(boardState) == 'n')
         {
             // bool validMove = false; //initialize the validMove variable
             // while (!validMove)
@@ -105,52 +107,51 @@
             {
                 move = minimax.compute(boardState, false);
             }
-            makeMove(move - 1, computerValue);
-
+            makeMove(boardState, move - 1, computerValue);
             playerMove();
         }
-        else if (checkForWin() == playerValue)
+        else if (checkForWin(boardState) == playerValue)
         {
             Console.WriteLine("You win!");
         }
-        else if (checkForWin() == computerValue)
+        else if (checkForWin(boardState) == computerValue)
         {
             Console.WriteLine("You lose!");
         }
     }
-    public static char checkForWin()
+    public static char checkForWin(char[] bs)
     {
-        if (boardState[0] == boardState[1] && boardState[1] == boardState[2] && boardState[0] != '#')
+        if (bs[0] == bs[1] && bs[1] == bs[2] && bs[0] != '#')
         {
-            return boardState[0];
+            return bs[0];
         }
-        else if (boardState[3] == boardState[4] && boardState[4] == boardState[5] && boardState[3] != '#')
+        else if (bs[3] == bs[4] && bs[4] == bs[5] && bs[3] != '#')
         {
-            return boardState[3];
+            return bs[3];
         }
-        else if (boardState[6] == boardState[7] && boardState[7] == boardState[8] && boardState[6] != '#')
+        else if (bs[6] == bs[7] && bs[7] == bs[8] && bs[6] != '#')
         {
-            return boardState[6];
+            return bs[6];
         }
-        else if (boardState[0] == boardState[3] && boardState[3] == boardState[6] && boardState[0] != '#')
+        else if (bs[0] == bs[3] && bs[3] == bs[6] && bs[0] != '#')
         {
-            return boardState[0];
+            return bs[0];
         }
-        else if (boardState[1] == boardState[4] && boardState[4] == boardState[7] && boardState[1] != '#')
+        else if (bs[1] == bs[4] && bs[4] == bs[7] && bs[1] != '#')
         {
-            return boardState[1];
+            return bs[1];
         }
-        else if (boardState[2] == boardState[5] && boardState[5] == boardState[8] && boardState[2] != '#')
+        else if (bs[2] == bs[5] && bs[5] == bs[8] && bs[2] != '#')
         {
-            return boardState[2];
+            return bs[2];
         }
-        else if (boardState[0] == boardState[4] && boardState[4] == boardState[8] && boardState[0] != '#')
+        else if (bs[0] == bs[4] && bs[4] == bs[8] && bs[0] != '#')
         {
-            return boardState[0];
+            return bs[0];
         }
-        else if (boardState[2] == boardState[4] && boardState[4] == boardState[6] && boardState[2] != '#')
+        else if (bs[2] == bs[4] && bs[4] == bs[6] && bs[2] != '#')
         {
-            return boardState[2];
+            return bs[2];
         }
         else
         {
