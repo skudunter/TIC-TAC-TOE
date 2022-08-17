@@ -5,15 +5,15 @@ class minimax
     {
         if (isNaughts)
         {
-            if (board.checkForWin() == 'O')
+            if (board.checkForWin(boardState) == 'O')
             {
                 return 1;
             }
-            else if (board.checkForWin() == 'X')
+            else if (board.checkForWin(boardState) == 'X')
             {
                 return -1;
             }
-            else if ((board.checkForWin() == 'n') && (board.validMoves.Count() == 0))
+            else if ((board.checkForWin(boardState) == 'n') && (board.validMoves.Count() == 0))
             {
                 return 0;
             }
@@ -21,9 +21,9 @@ class minimax
             int bestMove = -1;
             foreach (int move in board.validMoves)
             {
-                board.makeMove(move, 'O');
+                boardState = board.makeMove(boardState, move, 'O');
                 int score = compute(boardState, false);
-                board.undoMove(move);
+                boardState = board.undoMove(boardState, move);
                 if (score > bestScore)
                 {
                     bestScore = score;
@@ -34,15 +34,15 @@ class minimax
         }
         else if (!isNaughts)
         {
-            if (board.checkForWin() == 'X')
+            if (board.checkForWin(boardState) == 'X')
             {
                 return 1;
             }
-            else if (board.checkForWin() == 'O')
+            else if (board.checkForWin(boardState) == 'O')
             {
                 return -1;
             }
-            else if ((board.checkForWin() == 'n') && (board.validMoves.Count() == 0))
+            else if ((board.checkForWin(boardState) == 'n') && (board.validMoves.Count() == 0))
             {
                 return 0;
             }
@@ -50,9 +50,9 @@ class minimax
             int bestMove = -1;
             foreach (int move in board.validMoves)
             {
-                board.makeMove(move, 'X');
+                boardState = board.makeMove(boardState, move, 'X');
                 int score = compute(boardState, true);
-                board.undoMove(move);
+                boardState = board.undoMove(boardState, move);
                 if (score < bestScore)
                 {
                     bestScore = score;
