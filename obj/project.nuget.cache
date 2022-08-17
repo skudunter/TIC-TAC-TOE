@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "MNhmlGtzcofvOe4wVaAbE+IV5RVKR2IU8h80rUOPNZNO9yzsmBk5aeJ4tfCBuqTeN6PdwfIFG3w7VpMhZhvQaA==",
+  "dgSpecHash": "z1GkhdjZp2IdS79u4Li7tZH/tB/LVU1raLMCVjq5f3L6sLzfk5ro8d2WjinPtL6CSgcYDg/SLc6rZtuRK4eKgg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Daniel\\Code\\C#\\TIC-TAC-TOE-1\\tic-tac-toe.csproj",
+  "projectFilePath": "C:\\Users\\Daniel\\Code\\C#\\TIC-TAC-TOE-2\\tic-tac-toe.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

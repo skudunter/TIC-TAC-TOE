@@ -1,7 +1,6 @@
 board mainBoard = new board(); //initialize the board
 
 Console.Clear();
-//decides who goes first 
 Console.WriteLine("Computer or player to go first?(C/P)");
 string? input = Console.ReadLine();
 Console.Clear();

@@ -4,26 +4,18 @@
     public static int[] validMoves = new int[9] { 0, 1, 2, 3, 4, 5, 6, 7, 8 }; //initialize the valid moves array
     public static char computerValue;
     public static char playerValue;
+    public static int count = 0;
     public static bool gameOver = false; //initialize the gameOver variable
     public static char[] makeMove(char[] bs, int move, char value)
     { //make a move on the board
-        bs[move] = value;
-        for (int i = 0; i < 9; i++)
-        {
-            if (move - 1 == i)
-            {
-                //splice validMoves index i out of the array
-                validMoves[i] = validMoves[validMoves.Length - 1];
-                Array.Resize(ref validMoves, validMoves.Length - 1);
-            }
-        }
+        // if (move == 9) return bs;
+        int convertedMove = move - 1; // 1 based to 0 based
+        bs[convertedMove] = value;
         return bs;
     }
     public static char[] undoMove(char[] bs, int move)
     { //undo a move on the board
         bs[move] = '#';
-        Array.Resize(ref validMoves, validMoves.Length + 1);
-        validMoves[validMoves.Length - 1] = move;
         return bs;
     }
     public static void showBoard()
@@ -43,27 +35,29 @@
         {
             bool validMove = false; //initialize the validMove variable
             while (!validMove)
-            { //loop until a valid move is made
-                Console.Clear();
+            {
+                //Console.Clear();
                 showBoard(); //show the board
                 Console.WriteLine();
                 Console.WriteLine("Where would you like to move?(1-9)"); //prompt the user for a move
                 string? input = Console.ReadLine(); //get the user's input
                 int move = 0; //initialize the move variable
-                if(input != null){
-                move = int.Parse(input);
+                if (input != null)
+                {
+                    move = int.Parse(input);
                 }
                 if (move < 1 || move > 9) //if the input is not between 1 and 9
                 {
-                    //Console.WriteLine("Invalid move"); //print an error message
+                    Console.WriteLine("Invalid move"); //print an error message
                 }
                 else if (boardState[move - 1] != '#') //if the input is already occupied
                 {
-                    //Console.WriteLine("That space is already occupied"); //print an error message
+                    Console.WriteLine("That space is already occupied"); //print an error message
                 }
                 else
                 { //if the input is valid
-                    makeMove(boardState, move - 1, playerValue); //set the board state to playervalue
+                    board.boardState = makeMove(boardState, move, playerValue); //set the board state to playervalue
+                    validMoves = getValidMoves(boardState); //get the valid moves
                     validMove = true; //set the validMove variable to true
                 }
             }
@@ -80,9 +74,6 @@
         else
         {
             Console.WriteLine("It's a tie!");
-        }
-        {
-            Console.WriteLine("You lose!");
         }
     }
     public static void computerMove()
@@ -110,7 +101,11 @@
             {
                 move = minimax.compute(boardState, false);
             }
-            makeMove(boardState, move - 1, computerValue);
+            Console.WriteLine("Computer Move" + move);
+            if (move >= 0)
+            {
+                makeMove(boardState, move, computerValue);
+            }
             playerMove();
         }
         else if (checkForWin(boardState) == playerValue)
@@ -161,5 +156,32 @@
             return 'n';
         }
     }
-
+    public static int[] getValidMoves(char[] bs)
+    { //get the valid moves
+        int[] validMoves = new int[9]; //initialize the validMoves array
+        for (int i = 0; i < 9; i++)
+        {
+            if (bs[i] == '#')
+            {
+                validMoves[i] = i;
+            }
+            else
+            {
+                validMoves[i] = 9; // out of bounds
+            }
+        }
+        return validMoves;
+    }
+    public static bool hasValidMoves(int[] validMoves)
+    {
+        bool valid = false;
+        for (int i = 0; i < 9; i++)
+        {
+            if (validMoves[i] != 9)
+            {
+                valid = true;
+            }
+        }
+        return valid;
+    }
 }
