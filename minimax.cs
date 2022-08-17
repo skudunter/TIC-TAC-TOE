@@ -1,4 +1,3 @@
-
 class minimax
 {
     public static int compute(char[] boardState, bool isNaughts)

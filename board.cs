@@ -49,7 +49,10 @@
                 Console.WriteLine();
                 Console.WriteLine("Where would you like to move?(1-9)"); //prompt the user for a move
                 string? input = Console.ReadLine(); //get the user's input
-                int move = int.Parse(input); //convert the input to an int
+                int move = 0; //initialize the move variable
+                if(input != null){
+                move = int.Parse(input);
+                }
                 if (move < 1 || move > 9) //if the input is not between 1 and 9
                 {
                     //Console.WriteLine("Invalid move"); //print an error message
