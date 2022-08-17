@@ -56,7 +56,7 @@
                 }
                 else
                 { //if the input is valid
-                    board.boardState = makeMove(boardState, move, playerValue); //set the board state to playervalue
+                    boardState = makeMove(boardState, move, playerValue); //set the board state to playervalue
                     validMoves = getValidMoves(boardState); //get the valid moves
                     validMove = true; //set the validMove variable to true
                 }
@@ -93,7 +93,7 @@
 
             // }
             int move;
-            if (computerValue == 'O')
+            if (computerValue == 'X')
             {
                 move = minimax.compute(boardState, true);
             }
@@ -102,9 +102,10 @@
                 move = minimax.compute(boardState, false);
             }
             Console.WriteLine("Computer Move" + move);
-            if (move >= 0)
+            if (move >= 0 || move <= 8)
             {
-                makeMove(boardState, move, computerValue);
+                boardState = makeMove(boardState, move, computerValue);
+                validMoves = getValidMoves(boardState);
             }
             playerMove();
         }
