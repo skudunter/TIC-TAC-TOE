@@ -6,17 +6,16 @@
     public char playerValue;
     public int count = 0;
     public bool gameOver = false; //initialize the gameOver variable
-    public char[] makeMove(char[] bs, int move, char value)
+    public minimax engine = new minimax();
+    public char[] makeMove(int move, char value)
     { //make a move on the board
-        // if (move == 9) return bs;
-        int convertedMove = move - 1; // 1 based to 0 based
-        bs[convertedMove] = value;
-        return bs;
+        boardState[move - 1] = value;
+        return boardState;
     }
-    public char[] undoMove(char[] bs, int move)
+    public char[] undoMove(int move)
     { //undo a move on the board
-        bs[move] = '#';
-        return bs;
+        boardState[move - 1] = '#';
+        return boardState;
     }
     public void showBoard()
     { //print the board to the console
@@ -31,7 +30,7 @@
     }
     public void playerMove()
     {
-        if (checkForWin(boardState) == 'n')
+        if (checkForWin() == 'n')
         {
             bool validMove = false; //initialize the validMove variable
             while (!validMove)
@@ -56,18 +55,18 @@
                 }
                 else
                 { //if the input is valid
-                    boardState = makeMove(boardState, move, playerValue); //set the board state to playervalue
-                    validMoves = getValidMoves(boardState); //get the valid moves
+                    boardState = makeMove(move, playerValue); //set the board state to playervalue
+                    validMoves = getValidMoves(); //get the valid moves
                     validMove = true; //set the validMove variable to true
                 }
             }
             computerMove();
         }
-        else if (checkForWin(boardState) == playerValue)
+        else if (checkForWin() == playerValue)
         {
             Console.WriteLine("You win!");
         }
-        else if (checkForWin(boardState) == computerValue)
+        else if (checkForWin() == computerValue)
         {
             Console.WriteLine("You lose!");
         }
@@ -78,7 +77,7 @@
     }
     public void computerMove()
     {
-        if (checkForWin(boardState) == 'n')
+        if (checkForWin() == 'n')
         {
             // bool validMove = false; //initialize the validMove variable
             // while (!validMove)
@@ -95,74 +94,74 @@
             int move;
             if (computerValue == 'X')
             {
-                move = compute(mainBoard,true);
+                move = engine.compute(this, true);
             }
             else
             {
-                move = compute(mainBoard,false);
+                move = engine.compute(this, false);
             }
             Console.WriteLine("Computer Move" + move);
             if (move >= 0 || move <= 8)
             {
-                boardState = makeMove(boardState, move, computerValue);
-                validMoves = getValidMoves(boardState);
+                boardState = makeMove(move, computerValue);
+                validMoves = getValidMoves();
             }
             playerMove();
         }
-        else if (checkForWin(boardState) == playerValue)
+        else if (checkForWin() == playerValue)
         {
             Console.WriteLine("You win!");
         }
-        else if (checkForWin(boardState) == computerValue)
+        else if (checkForWin() == computerValue)
         {
             Console.WriteLine("You lose!");
         }
     }
-    public char checkForWin(char[] bs)
+    public char checkForWin()
     {
-        if (bs[0] == bs[1] && bs[1] == bs[2] && bs[0] != '#')
+        if (boardState[0] == boardState[1] && boardState[1] == boardState[2] && boardState[0] != '#')
         {
-            return bs[0];
+            return boardState[0];
         }
-        else if (bs[3] == bs[4] && bs[4] == bs[5] && bs[3] != '#')
+        else if (boardState[3] == boardState[4] && boardState[4] == boardState[5] && boardState[3] != '#')
         {
-            return bs[3];
+            return boardState[3];
         }
-        else if (bs[6] == bs[7] && bs[7] == bs[8] && bs[6] != '#')
+        else if (boardState[6] == boardState[7] && boardState[7] == boardState[8] && boardState[6] != '#')
         {
-            return bs[6];
+            return boardState[6];
         }
-        else if (bs[0] == bs[3] && bs[3] == bs[6] && bs[0] != '#')
+        else if (boardState[0] == boardState[3] && boardState[3] == boardState[6] && boardState[0] != '#')
         {
-            return bs[0];
+            return boardState[0];
         }
-        else if (bs[1] == bs[4] && bs[4] == bs[7] && bs[1] != '#')
+        else if (boardState[1] == boardState[4] && boardState[4] == boardState[7] && boardState[1] != '#')
         {
-            return bs[1];
+            return boardState[1];
         }
-        else if (bs[2] == bs[5] && bs[5] == bs[8] && bs[2] != '#')
+        else if (boardState[2] == boardState[5] && boardState[5] == boardState[8] && boardState[2] != '#')
         {
-            return bs[2];
+            return boardState[2];
         }
-        else if (bs[0] == bs[4] && bs[4] == bs[8] && bs[0] != '#')
+        else if (boardState[0] == boardState[4] && boardState[4] == boardState[8] && boardState[0] != '#')
         {
-            return bs[0];
+            return boardState[0];
         }
-        else if (bs[2] == bs[4] && bs[4] == bs[6] && bs[2] != '#')
+        else if (boardState[2] == boardState[4] && boardState[4] == boardState[6] && boardState[2] != '#')
         {
-            return bs[2];
+            return boardState[2];
         }
         else
         {
             return 'n';
         }
     }
-    public int[] getValidMoves(char[] bs)
+    public int[] getValidMoves()
     { //get the valid moves
         int[] validMoves = new int[9]; //initialize the validMoves array
         for (int i = 0; i < 9; i++)
         {
-            if (bs[i] == '#')
+            if (boardState[i] == '#')
             {
                 validMoves[i] = i;
             }
@@ -173,7 +172,7 @@
         }
         return validMoves;
     }
-    public bool hasValidMoves(int[] validMoves)
+    public bool hasValidMoves()
     {
         bool valid = false;
         for (int i = 0; i < 9; i++)
