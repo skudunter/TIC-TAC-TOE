@@ -10,11 +10,13 @@
     public char[] makeMove(int move, char value)
     { //make a move on the board
         boardState[move - 1] = value;
+        getValidMoves();
         return boardState;
     }
     public char[] undoMove(int move)
     { //undo a move on the board
         boardState[move - 1] = '#';
+        getValidMoves();
         return boardState;
     }
     public void showBoard()
@@ -55,8 +57,7 @@
                 }
                 else
                 { //if the input is valid
-                    boardState = makeMove(move, playerValue); //set the board state to playervalue
-                    validMoves = getValidMoves(); //get the valid moves
+                    makeMove(move, playerValue); //set the board state to playervalue
                     validMove = true; //set the validMove variable to true
                 }
             }
@@ -86,10 +87,10 @@
             //     int move = rnd.Next(1, 10); //get a random number between 1 and 9
             //     if (boardState[move - 1] == '#') //if the random number is not already occupied
             //     {
-            //         boardState[move - 1] = computerValue; //set the board state to X
+            //         makeMove(move - 1, computerValue); //set the board state to X
             //         validMove = true; //set the validMove variable to true
             //     }
-
+            //     playerMove();
             // }
             int move;
             if (computerValue == 'X')
@@ -101,11 +102,7 @@
                 move = engine.compute(this, false);
             }
             Console.WriteLine("Computer Move" + move);
-            if (move >= 0 || move <= 8)
-            {
-                boardState = makeMove(move, computerValue);
-                validMoves = getValidMoves();
-            }
+            makeMove(move, computerValue);
             playerMove();
         }
         else if (checkForWin() == playerValue)
@@ -115,8 +112,10 @@
         else if (checkForWin() == computerValue)
         {
             Console.WriteLine("You lose!");
+
         }
     }
+
     public char checkForWin()
     {
         if (boardState[0] == boardState[1] && boardState[1] == boardState[2] && boardState[0] != '#')
@@ -158,7 +157,7 @@
     }
     public int[] getValidMoves()
     { //get the valid moves
-        int[] validMoves = new int[9]; //initialize the validMoves array
+        validMoves = new int[9]; //initialize the validMoves array
         for (int i = 0; i < 9; i++)
         {
             if (boardState[i] == '#')
@@ -180,6 +179,7 @@
             if (validMoves[i] != 9)
             {
                 valid = true;
+                break;
             }
         }
         return valid;
