@@ -1,19 +1,18 @@
-class minimax
-{
-    public static int compute(char[] boardState, bool isCrosses)
+
+    static int compute(board board,bool isCrosses)
     {
-        int[] validMoves = board.getValidMoves(boardState);
+        int[] validMoves = board.getValidMoves();
         if (isCrosses) // maximizing player
         {
-            if (board.checkForWin(boardState) == 'X')
+            if (board.checkForWin() == 'X')
             {
                 return -1;
             }
-            else if (board.checkForWin(boardState) == 'O')
+            else if (board.checkForWin() == 'O')
             {
                 return 1;
             }
-            else if (board.checkForWin(boardState) == 'n' && !board.hasValidMoves(validMoves))
+            else if (board.checkForWin() == 'n' && !hasValidMoves())
             {
                 return 0;
             }
@@ -23,12 +22,12 @@ class minimax
             foreach (int move in validMoves)
             {
                 if (move == 9) continue;
-                boardState = board.makeMove(boardState, move + 1, 'X');
-                validMoves = board.getValidMoves(boardState);
+                board.boardState = board.makeMove(move,'X');
+                board.validMoves = board.getValidMoves();
                 //Console.WriteLine(new string (boardState));
-                int score = compute(boardState, false);
-                boardState = board.undoMove(boardState, move);
-                validMoves = board.getValidMoves(boardState);
+                int score = compute(board,false);
+                board.boardState = board.undoMove(move);
+                board.validMoves = getValidMoves();
                 if (score > bestScore)
                 {
                     bestScore = score;
@@ -40,15 +39,15 @@ class minimax
         }
         else // minimizing player
         {
-            if (board.checkForWin(boardState) == 'X')
+            if (board.checkForWin() == 'X')
             {
                 return 1;
             }
-            else if (board.checkForWin(boardState) == 'O')
+            else if (board.checkForWin() == 'O')
             {
                 return -1;
             }
-            else if (board.checkForWin(boardState) == 'n' && !board.hasValidMoves(validMoves))
+            else if (board.checkForWin() == 'n' && !board.hasValidMoves())
             {
                 return 0;
             }
@@ -58,11 +57,11 @@ class minimax
             foreach (int move in validMoves)
             {
                 if (move == 9) continue;
-                boardState = board.makeMove(boardState, move + 1, 'O');
-                validMoves = board.getValidMoves(boardState);
-                int score = compute(boardState, true);
-                boardState = board.undoMove(boardState, move);
-                validMoves = board.getValidMoves(boardState);
+                board.boardState = board.makeMove(move,'O');
+                validMoves = board.getValidMoves();
+                int score = compute(board,true);
+                board.boardState = board.undoMove(move);
+                board.validMoves = board.getValidMoves();
                 if (score < bestScore)
                 {
                     bestScore = score;
@@ -73,4 +72,3 @@ class minimax
             return bestMove;
         }
     }
-}
