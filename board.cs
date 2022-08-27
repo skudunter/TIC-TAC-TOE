@@ -1,24 +1,24 @@
 ﻿class board
 { //the class for displaying the game board
-    public static char[] boardState = new char[9] { '#', '#', '#', '#', '#', '#', '#', '#', '#' }; //initialize the board state
-    public static int[] validMoves = new int[9] { 0, 1, 2, 3, 4, 5, 6, 7, 8 }; //initialize the valid moves array
-    public static char computerValue;
-    public static char playerValue;
-    public static int count = 0;
-    public static bool gameOver = false; //initialize the gameOver variable
-    public static char[] makeMove(char[] bs, int move, char value)
+    public char[] boardState = new char[9] { '#', '#', '#', '#', '#', '#', '#', '#', '#' }; //initialize the board state
+    public int[] validMoves = new int[9] { 0, 1, 2, 3, 4, 5, 6, 7, 8 }; //initialize the valid moves array
+    public char computerValue;
+    public char playerValue;
+    public int count = 0;
+    public bool gameOver = false; //initialize the gameOver variable
+    public char[] makeMove(char[] bs, int move, char value)
     { //make a move on the board
         // if (move == 9) return bs;
         int convertedMove = move - 1; // 1 based to 0 based
         bs[convertedMove] = value;
         return bs;
     }
-    public static char[] undoMove(char[] bs, int move)
+    public char[] undoMove(char[] bs, int move)
     { //undo a move on the board
         bs[move] = '#';
         return bs;
     }
-    public static void showBoard()
+    public void showBoard()
     { //print the board to the console
         for (int i = 0; i < 9; i++)
         {
@@ -29,7 +29,7 @@
             System.Console.Write(boardState[i] + " ");
         }
     }
-    public static void playerMove()
+    public void playerMove()
     {
         if (checkForWin(boardState) == 'n')
         {
@@ -76,7 +76,7 @@
             Console.WriteLine("It's a tie!");
         }
     }
-    public static void computerMove()
+    public void computerMove()
     {
         if (checkForWin(boardState) == 'n')
         {
@@ -95,11 +95,11 @@
             int move;
             if (computerValue == 'X')
             {
-                move = minimax.compute(boardState, true);
+                move = compute(mainBoard,true);
             }
             else
             {
-                move = minimax.compute(boardState, false);
+                move = compute(mainBoard,false);
             }
             Console.WriteLine("Computer Move" + move);
             if (move >= 0 || move <= 8)
@@ -118,7 +118,7 @@
             Console.WriteLine("You lose!");
         }
     }
-    public static char checkForWin(char[] bs)
+    public char checkForWin(char[] bs)
     {
         if (bs[0] == bs[1] && bs[1] == bs[2] && bs[0] != '#')
         {
@@ -157,7 +157,7 @@
             return 'n';
         }
     }
-    public static int[] getValidMoves(char[] bs)
+    public int[] getValidMoves(char[] bs)
     { //get the valid moves
         int[] validMoves = new int[9]; //initialize the validMoves array
         for (int i = 0; i < 9; i++)
@@ -173,7 +173,7 @@
         }
         return validMoves;
     }
-    public static bool hasValidMoves(int[] validMoves)
+    public bool hasValidMoves(int[] validMoves)
     {
         bool valid = false;
         for (int i = 0; i < 9; i++)
